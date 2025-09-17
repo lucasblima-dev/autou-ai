@@ -12,7 +12,7 @@ def create_app():
     origins = [
         "http://localhost",
         "http://localhost:5173",
-        "https://autou-frontend-fkvu.onrender.com/"
+        "https://autou-frontend-fkvu.onrender.com"
     ]
 
     app.add_middleware(
