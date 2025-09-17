@@ -7,7 +7,7 @@ Este projeto foi desenvolvido como parte do Case Prático para o processo seleti
 
 ## Links
 
-- **Aplicação Online:** **[LINK AQUI DEPOIS]**
+- **Aplicação Online:** **https://autou-frontend-fkvu.onrender.com/**
 - **Vídeo de Apresentação:** **[LINK AQUI DEPOIS]**
 
 
