@@ -8,7 +8,6 @@ HF_API_KEY = os.getenv("HUGGING_FACE_API_KEY")
 CLASSIFICATION_API_URL = "https://api-inference.huggingface.co/models/facebook/bart-large-mnli"
 hf_headers = {"Authorization": f"Bearer {HF_API_KEY}"}
 
-GENERATION_API_URL = "https://hf.space/gradioiframe/gpt2/generate/api/predict/"
 
 def classify_text(text: str) -> str:
     if not HF_API_KEY:
@@ -24,7 +23,7 @@ def classify_text(text: str) -> str:
         
         if response.status_code != 200:
             print(f"Erro na API de classificação: {response.status_code} - {response.text}")
-            return "Produtivo"
+            return "Produtivo" 
 
         api_response = response.json()
         best_label_index = api_response['scores'].index(max(api_response['scores']))
@@ -35,44 +34,18 @@ def classify_text(text: str) -> str:
         return "Erro de Classificação"
 
 
-def generate_suggestion(text: str, category: str) -> str:
+def generate_mock_suggestion(category: str) -> str:
     if category.lower() == "produtivo":
-        prompt = f"O seguinte email foi classificado como produtivo: '{text}'. Sugira uma resposta curta e profissional para este email em português."
+        return "Obrigado pela sua mensagem. Sua solicitação está sendo processada e retornaremos em breve com uma atualização."
     elif category.lower() == "improdutivo":
-        prompt = f"O seguinte email foi classificado como improdutivo: '{text}'. Sugira uma resposta curta e educada em português."
+        return "Agradecemos o contato. Sua mensagem foi recebida."
     else:
-        return "Não foi possível gerar uma sugestão pois a categoria é inválida."
-
-    try:
-        payload = {
-            "data": [
-                prompt,
-            ]
-        }
-        
-        response = requests.post(GENERATION_API_URL, json=payload)
-
-        if response.status_code != 200:
-            print(f"Erro no endpoint público de geração: {response.status_code} - {response.text}")
-            return "Erro ao contatar o serviço de geração de texto."
-
-        api_response = response.json()
-        
-        generated_text = api_response.get("data", ["Falha ao extrair texto."])[0]
-        
-        if generated_text.startswith(prompt):
-            return generated_text[len(prompt):].strip()
-        
-        return generated_text.strip()
-
-    except Exception as e:
-        #print(f"Ocorreu uma exceção ao gerar sugestão: {e}")
-        return "Erro ao processar a geração da sugestão."
+        return "Não foi possível gerar uma sugestão para esta categoria."
 
 
 def process_email(text: str) -> dict:
     category = classify_text(text)
-    suggestion = generate_suggestion(text, category)
+    suggestion = generate_mock_suggestion(category)
     
     return {
         "category": category,
